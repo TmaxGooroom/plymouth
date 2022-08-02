@@ -1,0 +1,12 @@
+Index: plymouth/src/libply-splash-core/ply-keyboard.c
+===================================================================
+--- plymouth.orig/src/libply-splash-core/ply-keyboard.c
++++ plymouth/src/libply-splash-core/ply-keyboard.c
+@@ -298,7 +298,6 @@ on_key_event (ply_keyboard_t *keyboard,
+                     (*keyboard_input >= 32 && *keyboard_input <= 126) ||
+                     (*keyboard_input == 3)  ||
+                     (*keyboard_input == 4)  ||
+-                    (*keyboard_input == 8)  ||
+                     (*keyboard_input == 10) ||
+                     (*keyboard_input == 21) ||
+                     (*keyboard_input == 22) ||

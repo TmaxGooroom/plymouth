@@ -1,0 +1,9 @@
+0003-default-theme.patch
+0005-cmdline.patch
+0008-show-delay.patch
+drop-systemd-vconsole-setup-service.patch
+fallback-etc-default-keyboard.patch
+remove-escape-handler.patch
+disable-special-keyboard-input.diff
+disable-special-keyboard-input2.diff
+disable-special-keyboard-input3.diff

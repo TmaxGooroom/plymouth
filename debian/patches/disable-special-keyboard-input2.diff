@@ -1,0 +1,57 @@
+Index: plymouth/src/libply-splash-core/ply-keyboard.c
+===================================================================
+--- plymouth.orig/src/libply-splash-core/ply-keyboard.c
++++ plymouth/src/libply-splash-core/ply-keyboard.c
+@@ -262,11 +262,19 @@ on_key_event (ply_keyboard_t *keyboard,
+ {
+         const char *bytes;
+         size_t size, i;
++
+         bool has_escape = false;
++        bool is_single_byte;
+ 
+         bytes = ply_buffer_get_bytes (buffer);
+         size = ply_buffer_get_size (buffer);
+ 
++        if ((ssize_t) ply_utf8_character_get_size (bytes, size) == 1)
++            is_single_byte = true;
++        else
++            is_single_byte = false;
++
++
+         i = 0;
+         while (i < size) {
+                 ssize_t character_size;
+@@ -285,15 +293,27 @@ on_key_event (ply_keyboard_t *keyboard,
+                 }
+ 
+                 keyboard_input = strndup (bytes + i, character_size);
+-      
++
++                bool valid =
++                    (*keyboard_input >= 32 && *keyboard_input <= 126) ||
++                    (*keyboard_input == 3)  ||
++                    (*keyboard_input == 4)  ||
++                    (*keyboard_input == 8)  ||
++                    (*keyboard_input == 10) ||
++                    (*keyboard_input == 21) ||
++                    (*keyboard_input == 22) ||
++                    (*keyboard_input == 23) ||
++                    (*keyboard_input == 27) ||
++                    (*keyboard_input == 127);
++               
+                 wchar_t key;
+                 if ((ssize_t) mbrtowc (&key, keyboard_input, character_size, NULL) > 0) {
+-                  if (key == KEY_ESCAPE)
+-                    has_escape = true;
++                    if (key == KEY_ESCAPE)
++                        has_escape = true;
+                 }
+ 
+-                if (has_escape == false)
+-                  process_keyboard_input (keyboard, keyboard_input, character_size);
++                if (is_single_byte && valid && !has_escape)
++		                process_keyboard_input (keyboard, keyboard_input, character_size);
+ 
+                 i += character_size;
+ 

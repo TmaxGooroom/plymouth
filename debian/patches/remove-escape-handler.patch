@@ -1,0 +1,25 @@
+add remove escape handler patch
+--- a/src/main.c
++++ b/src/main.c
+@@ -985,10 +985,6 @@
+         ply_keyboard_add_input_handler (keyboard,
+                                         (ply_keyboard_input_handler_t)
+                                         on_keyboard_input, state);
+-        ply_trace ("listening for escape");
+-        ply_keyboard_add_escape_handler (keyboard,
+-                                         (ply_keyboard_escape_handler_t)
+-                                         on_escape_pressed, state);
+         ply_trace ("listening for backspace");
+         ply_keyboard_add_backspace_handler (keyboard,
+                                             (ply_keyboard_backspace_handler_t)
+@@ -1012,10 +1008,6 @@
+     ply_keyboard_remove_input_handler (keyboard,
+                                        (ply_keyboard_input_handler_t)
+                                        on_keyboard_input);
+-    ply_trace ("no longer listening for escape");
+-    ply_keyboard_remove_escape_handler (keyboard,
+-                                        (ply_keyboard_escape_handler_t)
+-                                        on_escape_pressed);
+     ply_trace ("no longer listening for backspace");
+     ply_keyboard_remove_backspace_handler (keyboard,
+                                            (ply_keyboard_backspace_handler_t)
